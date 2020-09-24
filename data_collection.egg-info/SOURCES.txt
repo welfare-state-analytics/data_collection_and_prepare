@@ -1,0 +1,11 @@
+README.rst
+setup.py
+data_collection/__init__.py
+data_collection.egg-info/PKG-INFO
+data_collection.egg-info/SOURCES.txt
+data_collection.egg-info/dependency_links.txt
+data_collection.egg-info/requires.txt
+data_collection.egg-info/top_level.txt
+data_collection/riksdagens_open_data/__init__.py
+data_collection/riksdagens_open_data/download_prot.sh
+data_collection/riksdagens_open_data/rdo_client.py
