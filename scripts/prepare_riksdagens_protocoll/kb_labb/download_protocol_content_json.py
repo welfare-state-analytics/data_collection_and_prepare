@@ -3,7 +3,7 @@ import sys
 
 import dotenv
 
-import westac.kblab.download as download
+import src.kb_labb.download as download
 
 root_folder = os.path.join(os.getcwd().split('welfare_state_analytics')[0], 'welfare_state_analytics')
 

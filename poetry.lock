@@ -608,8 +608,16 @@ optional = false
 python-versions = "*"
 version = "0.2.2"
 
+[[package]]
+category = "main"
+description = "Makes working with XML feel like you are working with JSON"
+name = "xmltodict"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "0.12.0"
+
 [metadata]
-content-hash = "76604763bea617ed49111d1899aedb1aa58e1242ddbaa0ec5d65725bfefa79c5"
+content-hash = "31a6ef2770d7208f0f8f14feb9df0775cfde3282f36f11788a3756701d66aa69"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -966,4 +974,8 @@ wcwidth = [
 ]
 xml2dict = [
     {file = "XML2Dict-0.2.2.tar.gz", hash = "sha256:20e4b48926ba3537b57587496c46d2c96fc5cf5707a0bdd8a7b1368122e0e964"},
+]
+xmltodict = [
+    {file = "xmltodict-0.12.0-py2.py3-none-any.whl", hash = "sha256:8bbcb45cc982f48b2ca8fe7e7827c5d792f217ecf1792626f808bf41c3b86051"},
+    {file = "xmltodict-0.12.0.tar.gz", hash = "sha256:50d8c638ed7ecb88d90561beedbf720c9b4e851a9fa6c47ebd64e99d166d8a21"},
 ]
