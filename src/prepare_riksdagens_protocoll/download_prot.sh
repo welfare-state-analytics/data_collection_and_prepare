@@ -15,6 +15,6 @@ for ds in ${datasets[@]}; do
 
 done
 
-zipmerge prot-1971-2021.text.zip -i *.text.zip
-zipmerge prot-1971-2021.csv.zip -i *.csv.zip
-zipmerge prot-1971-2021.json.zip -i *.json.zip
+for dt in ${datatypes[@]}; do
+    zipmerge prot-1971-2021.${dt}.zip -i *.${dt}.zip
+done

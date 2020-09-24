@@ -1,6 +1,6 @@
 [paths]
 source =
-   data_collection
+   src
 
 [run]
 omit =
