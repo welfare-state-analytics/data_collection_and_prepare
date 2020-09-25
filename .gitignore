@@ -24,6 +24,7 @@ output.xml
 **/data/
 **/secrets/
 data
+.snakemake
 .ipynb_checkpoints/
 .vscode/
 .spyproject/
