@@ -17,6 +17,7 @@ bash2:
 		--volume="/etc/passwd:/etc/passwd:ro" \
 		--volume="/etc/group:/etc/group:ro" \
 		--volume="/etc/shadow:/etc/shadow:ro" \
+        --volume="/data/sparv4/models:/sparv/models:rw" \
 		--rm -it sparv_v4:latest
 
 prune:
