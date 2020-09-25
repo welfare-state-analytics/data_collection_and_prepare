@@ -6,11 +6,11 @@ metadata:
     # Corpus ID (Machine name, only lower case ASCII letters (a-z) and "-" allowed. No white spaces.)
     id: sou-1945-1989-kb-labb
     # Corpus name (human readable)
-    name: SOU 1945-1989 från KB-labb API (ny OCR 2020)
+    name: RIKSDAGENS PROTOKOLL 1920-2020
 
     description:
         eng: |
-            SOU 1945-1989 från KB-labb API (ny OCR 2020)
+            1920-1989 KB-labb API, 1990-2020 Riksdagens Öppna Data
 
 #===============================================================================
 # Annotation Settings
@@ -35,14 +35,14 @@ classes:
 export:
     # Exports to create by default when running 'sparv run'
     default:
-        - csv_export:csv
+        #- csv_export:csv
         # - cwb:info
         # - cwb:vrt
         # - cwb:vrt_scrambled
         # - korp:relations_sql
         # - korp:timespan_sql
         #- stats_export:freq_list
-        #- xml_export:pretty
+        - xml_export:pretty
         # - xml_export:preserved_format
         # - xml_export:scrambled
 
@@ -67,17 +67,15 @@ xml_export: &xml
         # - <token>:misc.word.affixed
         # - <token>:custom.convert.upper
 
-# csv_export: *xml
-
-csv_export: &csv
-    # Automatic annotations to be included in the export
-    annotations:
-        # - <sentence>:misc.id
-        - <token>:hunpos.pos
-        - <token>:saldo.baseform
-        # - <token>:saldo.lemgram
-        # - <token>:saldo.compwf
-        # - <token>:saldo.complemgram
+# csv_export: &csv
+#     # Automatic annotations to be included in the export
+#     annotations:
+#         # - <sentence>:misc.id
+#         - <token>:hunpos.pos
+#         - <token>:saldo.baseform
+#         # - <token>:saldo.lemgram
+#         # - <token>:saldo.compwf
+#         # - <token>:saldo.complemgram
 
 # cwb: *xml
 
