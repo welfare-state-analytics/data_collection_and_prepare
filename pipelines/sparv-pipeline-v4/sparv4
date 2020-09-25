@@ -6,8 +6,8 @@
 SPARV_MODELS=/data/sparv4/models
 SPARV_MODELS_OPTS=
 
-if [ $SPARV_MODELS != "" ]; then
-    SPARV_MODELS_OPTS=--volume="$SPARV_MODELS:/sparv/models:ro"
+if [ "$SPARV_MODELS" != "" ]; then
+    SPARV_MODELS_OPTS=--volume="$SPARV_MODELS:/sparv/models:rw"
 fi
 
 docker run --rm \
