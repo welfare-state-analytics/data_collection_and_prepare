@@ -5,7 +5,7 @@ import zipfile
 
 import click
 
-from . import utility
+from src import utility
 
 logger = logging.getLogger()
 

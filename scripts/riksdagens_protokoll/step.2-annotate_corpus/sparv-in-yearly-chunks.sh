@@ -128,11 +128,13 @@ do
 
     cd ..
 
-    target_filename=$output_folder/riksdagens-protokoll.$year.sparv4.xml.zip
+    xml_filename=$output_folder/riksdagens-protokoll.$year.sparv4.xml.zip
+    rm -f $xml_filename
+    zip -jD $xml_filename ./$year/export/xml/*.xml
 
-    rm -f $target_filename
-
-    zip -jD $target_filename ./$year/export/xml/*.xml
+    csv_filename=$output_folder/riksdagens-protokoll.$year.sparv4.csv.zip
+    rm -f $csv_filename
+    zip -jD $csv_filename ./$year/export/csv/*.csv
 
     rm -rf $year
 

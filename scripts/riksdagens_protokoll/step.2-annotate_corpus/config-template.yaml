@@ -35,7 +35,7 @@ classes:
 export:
     # Exports to create by default when running 'sparv run'
     default:
-        #- csv_export:csv
+        - csv_export:csv
         # - cwb:info
         # - cwb:vrt
         # - cwb:vrt_scrambled
@@ -57,7 +57,7 @@ xml_export: &xml
         # - SWE_DEFAULT.text-lexical-class
         # - SWE_DEFAULT.readability
         - SWE_DEFAULT.hunpos
-        - SWE_DEFAULT.malt
+        # - SWE_DEFAULT.malt
         # - SWE_DEFAULT.sentiment
         # - SWE_DEFAULT.token-lexical-class
         - <token>:saldo.baseform
@@ -67,15 +67,15 @@ xml_export: &xml
         # - <token>:misc.word.affixed
         # - <token>:custom.convert.upper
 
-# csv_export: &csv
-#     # Automatic annotations to be included in the export
-#     annotations:
-#         # - <sentence>:misc.id
-#         - <token>:hunpos.pos
-#         - <token>:saldo.baseform
-#         # - <token>:saldo.lemgram
-#         # - <token>:saldo.compwf
-#         # - <token>:saldo.complemgram
+csv_export: &csv
+    # Automatic annotations to be included in the export
+    annotations:
+        # - <sentence>:misc.id
+        - <token>:hunpos.pos
+        - <token>:saldo.baseform
+        # - <token>:saldo.lemgram
+        # - <token>:saldo.compwf
+        # - <token>:saldo.complemgram
 
 # cwb: *xml
 

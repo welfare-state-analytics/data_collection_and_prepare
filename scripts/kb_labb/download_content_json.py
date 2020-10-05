@@ -4,12 +4,11 @@ import sys
 import click
 import dotenv
 
-import westac.kblab.download as download
-
-root_folder = os.path.join(os.getcwd().split('welfare_state_analytics')[0], 'welfare_state_analytics')
+root_folder = (lambda x: os.path.join(os.getcwd().split(x)[0], x))('westac_data')
 
 sys.path = list(set(sys.path + [ root_folder ]))
 
+import src.kb_labb.download as download
 # pylint: disable=no-value-for-parameter
 
 @click.command()

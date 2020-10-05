@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# This script merges Riksdagens protokoll downloaded from KB-labb and Riksdagens öppna data
+# The scripts downloads and merges KB-labb files from Google Drive, and deletes years out-of-scope
+
 cd ~/source/welfare-state-analytics/data/riksdagens_protokoll/kb_labb
 
 # Tanka hem riksdagens protokoll från Google Drive (KB-labb 1847-1989)
@@ -31,4 +34,4 @@ cd ~/source/welfare-state-analytics/data/riksdagens_protokoll/
 zipmerge riksdagens_protokoll_1920-2020.zip \
     ./kb_labb/riksdagens_protokoll_kb-labb_1920-1989.zip \
     ./riksdagens_open_data/riksdagens_protokoll_riksdagens-open-data_1990-2020.zip
-    
+
