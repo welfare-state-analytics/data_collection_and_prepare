@@ -17,7 +17,7 @@ metadata:
 #===============================================================================
 import:
     # File type of the input. Must be 'xml' or 'txt'.
-    source_type: txt
+    importer: text_import:parse
     document_element: text
 
 segment:
