@@ -65,10 +65,4 @@ USER root
 
 RUN /tmp/install-clear.sh
 
-##############################################################################
-# ENTRYPOINT
-##############################################################################
-
 ENTRYPOINT [ "/sparv/bin/entry-point.sh" ]
-
-#CMD [ "/sparv/bin/entry-point.sh" ]
