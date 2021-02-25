@@ -1,8 +1,23 @@
 [tool.poetry]
-name = "westac_data"
-version = "0.1.0"
+name = "humlab-westac-data"
+version = "2021.1.1"
 description = ""
 authors = ["Roger Mähler <roger.mahler@hotmail.com>"]
+packages = [
+    { include = "src" }
+]
+classifiers = [
+    'License :: OSI Approved :: Apache Software License',
+    'Operating System :: OS Independent',
+    'Topic :: Software Development',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.8',
+]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/humlab/penelope"
+repository = "https://github.com/humlab/penelope"
 
 [tool.poetry.dependencies]
 python = "^3.8"

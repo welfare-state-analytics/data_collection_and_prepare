@@ -5,7 +5,6 @@ python -m pip install pipx --user
 python -m pipx ensurepath
 git clone https://github.com/spraakbanken/sparv-pipeline.git
 cd sparv-pipeline
-git checkout v4
 pipx install .
 cd /home
 rm -rf /home/sparv-pipeline
