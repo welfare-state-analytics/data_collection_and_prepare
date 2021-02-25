@@ -20,7 +20,6 @@ or
 pyenv shell 3.8.5
 git clone https://github.com/spraakbanken/sparv-pipeline.git
 cd sparv-pipeline
-git checkout v4
 pipx install .
 ```
 
