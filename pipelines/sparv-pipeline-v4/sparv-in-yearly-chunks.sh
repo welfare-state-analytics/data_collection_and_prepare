@@ -93,6 +93,18 @@ if [ $start_year -lt 1900 ] || [ $start_year -gt 2020 ] || [ $stop_year -gt 2020
     usage
 fi
 
+add_files_to_archive()
+{
+    year=$1
+    ext=$2
+    if ls ./$year/export/$ext/*.$ext 1> /dev/null 2>&1; then
+        filename=$output_folder/${output_prefix}$year.sparv4.$ext.zip
+        rm -f $filename
+        zip -jD $filename ./$year/export/$ext/*.$ext
+        rm -rf ./$year/export/$ext/*.$ext
+    fi
+}
+
 echo "Using corpus $corpus_filename with pattern '$pattern_template' for $start_year to $stop_year and target folder $output_folder"
 
 mkdir -p $output_folder
@@ -129,9 +141,9 @@ do
     fi
 
     # Move tiny files to separate folder
-    wc -w ./tmp/*.txt | awk '$1 < 6 { print $2 }' |
+    mkdir -p ./skipped_files
+    wc -w ./$year/source/*.txt | awk '$1 < 6 { print $2 }' |
         while read line; do
-            mkdir -p ./skipped_files
             echo "Moving tiny file $line to ./skipped_files/"
             mv "$line" ./skipped_files/
         done
@@ -148,15 +160,3 @@ do
     rm -rf $year
 
 done
-
-add_files_to_archive()
-{
-    year=$1
-    ext=$2
-    if ls ./$year/export/$ext/*.$ext 1> /dev/null 2>&1; then
-        filename=$output_folder/$(output_prefix).$year.sparv4.$ext.zip
-        rm -f $filename
-        zip -jD $filename ./$year/export/$ext/*.$ext
-        rm -rf ./$year/export/$ext/*.$ext
-    fi
-}
