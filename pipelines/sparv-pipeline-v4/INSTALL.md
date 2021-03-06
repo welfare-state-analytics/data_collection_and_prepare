@@ -29,8 +29,8 @@ pipx install .
 $ sparv setup
 Sparv needs a place to store its configuration files, language models and other data. Enter the path to the directory you want to use. Leave empty to continue using '/home/xyz/.local/share/sparv'.
 
-# Use SPARV_DIR environment variable to override configured data dir:
-export SPARV_DIR=/home/xyz/.local/share/sparv
+# Use SPARV_DATADIR environment variable to override configured data dir:
+export SPARV_DATADIR=/home/xyz/.local/share/sparv
 
 ```
 
@@ -39,7 +39,7 @@ export SPARV_DIR=/home/xyz/.local/share/sparv
 Maltparser
 
 ```bash
-cd $SPARV_DIR/bin
+cd $SPARV_DATADIR/bin
 
 wget -qO- http://maltparser.org/dist/maltparser-1.7.2.tar.gz | tar xvz
 ```
@@ -56,7 +56,7 @@ or compile
 sudo apt-get update
 sudo apt-get install -yqq --no-install-recommends cmake ocaml-nox
 
-cd $SPARV_DIR/bin
+cd $SPARV_DATADIR/bin
 
 git clone https://github.com/mivoq/hunpos.git
 cd hunpos/
@@ -72,7 +72,7 @@ rm -rf ./hunpos/
 Sparv-wsd
 
 ```bash
-cd $SPARV_DIR/bin
+cd $SPARV_DATADIR/bin
 mkdir -p wsd
 cd wsd
 wget https://github.com/spraakbanken/sparv-wsd/raw/master/bin/saldowsd.jar
@@ -89,7 +89,7 @@ if [-f /usr/bin/python2 ]; then
     sudo ln -s /usr/bin/python2.7 /usr/bin/python2
 fi
 
-cd $SPARV_DIR/bin
+cd $SPARV_DATADIR/bin
 
 wget -qO- http://www.ling.helsinki.fi/users/janiemi/finclarin/ner/hfst-swener-0.9.3.tgz | tar xvz
 
@@ -109,7 +109,7 @@ Corpus Workbench
 
 ```bash
 
-cd $SPARV_DIR/bin
+cd $SPARV_DATADIR/bin
 
 svn co http://svn.code.sf.net/p/cwb/code/cwb/trunk cwb
 

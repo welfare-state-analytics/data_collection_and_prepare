@@ -1,13 +1,17 @@
 #!/bin/bash
 
 cd /home
+
 python -m pip install pipx --user
 python -m pipx ensurepath
-git clone https://github.com/spraakbanken/sparv-pipeline.git
-cd sparv-pipeline
-pipx install .
-cd /home
-rm -rf /home/sparv-pipeline
+pipx install sparv-pipeline
+
+# git clone --branch master --depth 0 https://github.com/spraakbanken/sparv-pipeline.git
+# cd sparv-pipeline
+# pipx install .
+# cd /home
+# rm -rf /home/sparv-pipeline
+
 chmod -R go+rx /home
 
 if [ $BUILD_SPARV_MODELS == "yes" ]; then
