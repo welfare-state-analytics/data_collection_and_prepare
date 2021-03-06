@@ -1,8 +1,7 @@
 .DEFAULT_GOAL=lint
 SHELL := /bin/bash
-SOURCE_FOLDERS=notebooks scripts tests
-PACKAGE_FOLDER=notebooks
-SPACY_MODEL=en_core_web_sm
+SOURCE_FOLDERS=src scripts tests
+PACKAGE_FOLDER=src
 
 GIT_BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
 GIT_SHA     = $(shell git rev-parse HEAD)
@@ -133,14 +132,6 @@ data: nltk_data spacy_data
 update:
 	@poetry update
 
-nltk_data:
-	@mkdir -p $(NLTK_DATA)
-	@poetry run python -m nltk.downloader -d $(NLTK_DATA) stopwords punkt sentiwordnet
-
-spacy_data:
-	@poetry run python -m spacy download $(SPACY_MODEL)
-	@poetry run python -m spacy link $(SPACY_MODEL) en --force
-
 IPYNB_FILES := $(shell find ./notebooks -name "*.ipynb" -type f \( ! -name "*checkpoint*" \) -print)
 PY_FILES := $(IPYNB_FILES:.ipynb=.py)
 
@@ -151,17 +142,6 @@ pair_ipynb: $(PY_FILES)
 $(PY_FILES):%.py:%.ipynb
 	@echo target is $@, source is $<
 	@poetry run jupytext --quiet --set-formats ipynb,py:percent $<
-
-# The same, but using a bash-loop:
-# pair_ipynb:
-# 	for ipynb_path in $(IPYNB_FILES) ; do \
-# 		ipynb_basepath="$${ipynb_path%.*}" ;\
-# 		py_filepath=$${ipynb_basepath}.py ;\
-# 		if [ ! -f $$py_filepath ] ; then \
-# 			echo "info: pairing $$ipynb_path with formats ipynb,py..." ;\
-# 			poetry run jupytext --quiet --set-formats ipynb,py:percent $$ipynb_path ;\
-# 		fi \
-# 	done
 
 unpair_ipynb:
 	@for ipynb_path in $(IPYNB_FILES) ; do \
