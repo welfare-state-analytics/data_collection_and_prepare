@@ -9,23 +9,23 @@ def get_items(data, key):
         raise Exception("not a dict")
 
     if key not in data:
-        return [ ]
+        return []
 
     items = data.get(key, None)
 
     if items is None:
-        return [ ]
+        return []
 
     if isinstance(items, dict):
-        return [ items ]
+        return [items]
 
     if isinstance(items, list):
         return items
 
-    raise AttributeError("key ""{}"" not found in block".format(key))
+    raise AttributeError("key " "{}" " not found in block".format(key))
 
-class AltoXmlParser():
 
+class AltoXmlParser:
     def __init__(self, line_break=None, block_break=None, page_break=None):
         self.line_break = line_break
         self.block_break = block_break
@@ -36,9 +36,7 @@ class AltoXmlParser():
 
     def pages(self, xml_content):
         content = xmltodict.parse(xml_content)
-        return chain.from_iterable(
-            (self.page(page) for _, page in content['alto']['Layout'].items())
-        )
+        return chain.from_iterable((self.page(page) for _, page in content['alto']['Layout'].items()))
 
     def page(self, page):
 
@@ -53,19 +51,13 @@ class AltoXmlParser():
         return tokens
 
     def composed_block(self, composed_block):
-        return chain.from_iterable(
-            (self.text_block(x) for x in get_items(composed_block, 'TextBlock'))
-        )
+        return chain.from_iterable((self.text_block(x) for x in get_items(composed_block, 'TextBlock')))
 
     def text_block(self, text_block):
-        return chain.from_iterable(
-            (self.text_line(x) for x in get_items(text_block, 'TextLine'))
-        )
+        return chain.from_iterable((self.text_line(x) for x in get_items(text_block, 'TextLine')))
 
     def text_line(self, text_line):
-        tokens = (
-            self.token(x) for x in get_items(text_line, 'String')
-        )
+        tokens = (self.token(x) for x in get_items(text_line, 'String'))
         if self.line_break is not None:
             tokens = chain(tokens, (self.line_break,))
         return tokens
@@ -74,8 +66,7 @@ class AltoXmlParser():
         return t['@CONTENT']
 
 
-class AltoXmlParserReversed():
-
+class AltoXmlParserReversed:
     def __init__(self, xml_content):
 
         self.content = xmltodict.parse(xml_content)
@@ -88,26 +79,26 @@ class AltoXmlParserReversed():
             yield page
 
     def composed_blocks(self, pages=None):
-        for page in (pages or self.pages()):
+        for page in pages or self.pages():
             for print_space in get_items(page, 'PrintSpace'):
                 for composed_block in get_items(print_space, 'ComposedBlock'):
                     yield composed_block
 
     def text_blocks(self, composed_blocks=None):
-        for composed_block in (composed_blocks or self.composed_blocks()):
+        for composed_block in composed_blocks or self.composed_blocks():
             for text_block in get_items(composed_block, 'TextBlock'):
                 yield text_block
 
     def text_lines(self, text_blocks=None):
-        for text_block in (text_blocks or self.text_blocks()):
+        for text_block in text_blocks or self.text_blocks():
             for text_line in get_items(text_block, 'TextLine'):
                 yield text_line
 
     def tokens(self, text_lines=None):
-        for text_line in (text_lines or self.text_lines()):
+        for text_line in text_lines or self.text_lines():
             for token in get_items(text_line, 'String'):
                 yield token['@CONTENT']
 
     def text(self):
 
-        return ' '.join([ x for x in self.tokens() if x != '' ])
+        return ' '.join([x for x in self.tokens() if x != ''])

@@ -1,13 +1,14 @@
-import sys
 import os
-import pandas as pd
+import sys
 import zipfile
+
+import pandas as pd
+from text_analytic_tools.common.gensim_utility import CompressedFileReader
 
 root_folder = os.path.join(os.getcwd().split('welfare_state_analytics')[0], 'welfare_state_analytics')
 
-sys.path = list(set(sys.path + [ root_folder ]))
+sys.path = list(set(sys.path + [root_folder]))
 
-from text_analytic_tools.common.gensim_utility import CompressedFileReader
 
 def load_index(filename):
     """Loads document index as a Pandas dataframe.
@@ -25,16 +26,32 @@ def load_index(filename):
         Document index
     """
     meta_columns = [
-        "hangar_id", "dok_id", "rm", "beteckning", "doktyp", "typ", "subtyp", "tempbeteckning", "organ",
-        "mottagare", "nummer", "datum", "systemdatum", "titel", "subtitel", "status", "relaterat_id"
+        "hangar_id",
+        "dok_id",
+        "rm",
+        "beteckning",
+        "doktyp",
+        "typ",
+        "subtyp",
+        "tempbeteckning",
+        "organ",
+        "mottagare",
+        "nummer",
+        "datum",
+        "systemdatum",
+        "titel",
+        "subtitel",
+        "status",
+        "relaterat_id",
     ]
     #
     df = pd.read_csv(filename, header=None, sep=',', quotechar='"')
     df.columns = meta_columns
     df = df.set_index('dok_id')
     # Update faulty value: G209106	1978/79	106	prot	prot	prot				===>107<===
-    #df.set_value('G209106', 'nummer', 106)
+    # df.set_value('G209106', 'nummer', 106)
     return df
+
 
 def rename_text_corpus_files(document_index, source_filename, target_filename):
     """Renames text files downloaded from RÖD in accordance to names of documents downloaded from KB-LABB.
@@ -49,9 +66,9 @@ def rename_text_corpus_files(document_index, source_filename, target_filename):
     target_filename : str
         Taret corpus filename
     """
+
     def get_rm_tag(rm):
-        """Returns 'riksmötet' as YYYYyy if rm is yyyy/yyyy else rm
-        """
+        """Returns 'riksmötet' as YYYYyy if rm is yyyy/yyyy else rm"""
         rm_parts = rm.split("/")
         if len(rm_parts) == 1:
             return rm
@@ -64,9 +81,10 @@ def rename_text_corpus_files(document_index, source_filename, target_filename):
             doc_id = document_name.split(".")[0]
             meta = document_index.loc[doc_id.upper()].to_dict()
             target_name = f'prot_{get_rm_tag(meta["rm"])}__{meta["beteckning"]}.txt'
-            of.writestr(target_name, content, zipfile.ZIP_DEFLATED )
+            of.writestr(target_name, content, zipfile.ZIP_DEFLATED)
 
     print("Done!")
+
 
 if __name__ == "__main__":
 

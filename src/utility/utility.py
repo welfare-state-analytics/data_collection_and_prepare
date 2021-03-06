@@ -17,7 +17,7 @@ def get_unique_folder_names(filenames):
         Unique filenames sorted in ascending order
     """
     folders = set(os.path.dirname(f) for f in filenames)
-    return sorted([ f for f in folders if f != '' ])
+    return sorted([f for f in folders if f != ''])
 
     # for filename, content in kblab_download_package_items(package, excludes):
 
@@ -39,6 +39,7 @@ def get_unique_folder_names(filenames):
 
     # return package_documents
 
+
 def store_to_zipfile(target_filename, filename_document_iter):
 
     with zipfile.ZipFile(target_filename, 'w') as zf:
@@ -46,6 +47,7 @@ def store_to_zipfile(target_filename, filename_document_iter):
         for filename, document in filename_document_iter:
 
             zf.writestr(filename, document, zipfile.ZIP_DEFLATED)
+
 
 def zip_folder_glob(zf, pattern="*.xml"):
     """Returns filenames that matches `pattern` for each folder in the zip file.
@@ -73,10 +75,11 @@ def zip_folder_glob(zf, pattern="*.xml"):
         if len(matching_filenames) > 1:
             yield folder, matching_filenames
 
+
 def setup_logger(logger=None, to_file=False, filename=None, level=logging.DEBUG):
-    '''
+    """
     Setup logging of import messages to both file and console
-    '''
+    """
     if logger is None:
         logger = logging.getLogger("westac")
 

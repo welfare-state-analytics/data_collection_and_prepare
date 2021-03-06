@@ -1,13 +1,13 @@
-from sqlite3.dbapi2 import NotSupportedError
-import requests
-
 import logging
+from sqlite3.dbapi2 import NotSupportedError
+
+import requests
 
 logger = logging.getLogger('RODClient')
 logger.setLevel(level=logging.DEBUG)
 
-class RODQuery():
 
+class RODQuery:
     def __init__(self, **kwargs):
 
         self.find_url = "http://data.riksdagen.se/dokumentlista/?sok=&{}&a=s#soktraff"
@@ -29,22 +29,20 @@ class RODQuery():
             "sort": "rel",
             "sortorder": "desc",
             "rapport": "",
-            "utformat": "json"
+            "utformat": "json",
         }
 
-        self.arguments = { **self.default_criterias, **kwargs }
+        self.arguments = {**self.default_criterias, **kwargs}
 
         if self.arguments['utformat'] != 'json':
             raise NotSupportedError("This client only support JSON responses!")
 
     def get_url(self):
 
-        return self.find_url.format(
-            '&'.join([ "{}={}".format(k, self.arguments[k]) for k in self.arguments.keys() ])
-        )
+        return self.find_url.format('&'.join(["{}={}".format(k, self.arguments[k]) for k in self.arguments.keys()]))
 
-class RODClient():
 
+class RODClient:
     def __init__(self, **kwargs):
 
         self.find_url = "http://data.riksdagen.se/dokumentlista/?sok=&utformat={format}&a=s#soktraff"
@@ -66,7 +64,7 @@ class RODClient():
             "sort": "rel",
             "sortorder": "desc",
             "rapport": "",
-            "utformat": "json"
+            "utformat": "json",
         }
 
     def _find_by_url(self, url):
@@ -78,8 +76,8 @@ class RODClient():
             if 'json' in response.headers['content-type']:
                 data = response.json()
 
-            #if 'xml' in response.headers['content-type']:
-            #    data = xmltodict.parse(response.body())
+                # if 'xml' in response.headers['content-type']:
+                #    data = xmltodict.parse(response.body())
 
                 if 'dokumentlista' not in data:
                     raise NotSupportedError("Expected key 'dokumentlista' not found!")
@@ -121,9 +119,12 @@ class RODClient():
             query_result = self._find_by_url(next_url)
 
         if n_documents != int(n_expected_documents):
-            logger.warning(f"Number of expected documents {n_expected_documents} differs from actual count {n_documents}")
+            logger.warning(
+                f"Number of expected documents {n_expected_documents} differs from actual count {n_documents}"
+            )
 
         logger.debug('Execting find_documents')
+
 
 #     def download(self, document, type='text', target=None):
 
