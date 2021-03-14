@@ -1,1 +1,0 @@
-/home/roma0050@ad.umu.se/source/westac_data/pipelines/sparv-pipeline-v4/sparv-in-yearly-chunks.sh
