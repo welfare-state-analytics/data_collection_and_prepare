@@ -122,6 +122,10 @@ do
         continue
     fi
 
+    mkdir -p ./small-files
+
+    find ./$year/source -type f -maxdepth 1 -size -100c -exec mv {} ./small-files/ \;
+
     cd $year
 
     sparv4 run
