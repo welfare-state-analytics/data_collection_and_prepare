@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "humlab-westac-data"
-version = "2021.1.1"
+version = "2021.18.1"
 description = ""
 authors = ["Roger Mähler <roger.mahler@hotmail.com>"]
 packages = [
