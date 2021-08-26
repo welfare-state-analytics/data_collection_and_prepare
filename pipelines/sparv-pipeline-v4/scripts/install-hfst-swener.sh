@@ -1,23 +1,25 @@
 #!/bin/bash
 # HFST-swener
 
-HSFT_SWENER_PACKAGE=hfst-swener-0.9.3
-HFST_SWENER_URL=http://www.ling.helsinki.fi/users/janiemi/finclarin/ner/${HSFT_SWENER_PACKAGE}.tgz
+HFST_SWENER_PACKAGE=hfst-swener-0.9.3
+HFST_SWENER_URL=http://www.ling.helsinki.fi/users/janiemi/finclarin/ner/${HFST_SWENER_PACKAGE}.tgz
 
 cd /tmp
 
-rm -rf ${HSFT_SWENER_PACKAGE}*
+rm -rf ${HFST_SWENER_PACKAGE}*
 
 wget  ${HFST_SWENER_URL}
-tar xvz ${HSFT_SWENER_PACKAGE}.tgz
+tar xvzf ${HFST_SWENER_PACKAGE}.tgz
 
-cd /tmp/${HSFT_SWENER_PACKAGE}/scripts
+cd /tmp/${HFST_SWENER_PACKAGE}/scripts
 sed -i 's:#! \/usr/bin/env python:#! /usr/bin/env python2:g' *.py
-cd /tmp/${HSFT_SWENER_PACKAGE}
+cd /tmp/${HFST_SWENER_PACKAGE}
 
-./configure --prefix=$SPARV_DATADIR/bin/hsft_swener
+./configure --prefix=$SPARV_DATADIR/bin/hfst_swener
 
 make
+
+rm -rf $SPARV_DATADIR/bin/hfst*
 make install
 
 cd $SPARV_DATADIR/bin
@@ -25,4 +27,5 @@ ln -s hfst_swener/bin/hfst-swener hfst-swener
 
 cd /tmp
 
-rm -rf ${HSFT_SWENER_PACKAGE}*
+rm -rf ${HFST_SWENER_PACKAGE}*
+
