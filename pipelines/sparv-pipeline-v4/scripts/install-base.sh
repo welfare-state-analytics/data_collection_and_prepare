@@ -11,10 +11,21 @@ mkdir -p /usr/share/man/man1
 apt install -y -qq --no-install-recommends \
     $BUILD_PACKAGES \
     ca-certificates locales time gettext \
+    libsqlite3-dev \
     m4 ocaml-nox \
     bison flex \
     curl wget zip unzip bzip2 tar git \
     python2.7-minimal
+
+# Recommended install if using pyenv:
+# https://github.com/pyenv/pyenv/wiki/Common-build-problems
+if [ "$PYENV_ROOT" != ""]; then
+    echo "warning: you might need to reinstall Python to enable sqlite3"
+    apt install -y libssl-dev zlib1g-dev libbz2-dev \
+        libreadline-dev llvm libncurses5-dev libncursesw5-dev \
+        xz-utils tk-dev libffi-dev liblzma-dev python-openssl
+    echo "you might need to replace libreadline-dev with libedit-dev"
+fi
 
 locale-gen en_US.UTF-8 && dpkg-reconfigure locales
 rm /bin/sh && ln -s /bin/bash /bin/sh
