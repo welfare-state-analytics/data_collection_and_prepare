@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# if [ -d $SPARV_DIR/models ]; then
+# if [ -d $SPARV_DATADIR/models ]; then
 # fi
 
 SPARV_MODELS=/data/sparv4/models

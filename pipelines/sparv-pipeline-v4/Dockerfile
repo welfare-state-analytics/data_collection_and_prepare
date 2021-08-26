@@ -7,7 +7,7 @@ ARG BUILD_SPARV_MODELS=no
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV HOME=/home
-ENV SPARV_DIR=/sparv
+ENV SPARV_DATADIR=/sparv
 ENV SHELL=/bin/bash
 
 USER root
@@ -35,6 +35,7 @@ RUN echo "installing 3rd-party software" \
     && /tmp/install-hunpos.sh \
     && /tmp/install-sparv-wsd.sh \
     && /tmp/install-hfst-swener.sh
+    # && /tmp/install-install-stanford-parser.sh
     # && /tmp/install-cwb.sh
 
 WORKDIR /home
@@ -55,7 +56,7 @@ USER sparv
 
 ENV PATH="/home/.local/bin:$PATH"
 
-ADD https://api.github.com/repos/spraakbanken/sparv-pipeline/git/refs/heads/v4 version.json
+# ADD https://api.github.com/repos/spraakbanken/sparv-pipeline/git/branch/heads/master version.json
 RUN echo "installing Sparv..." \
     && /sparv/bin/install-sparv.sh
 
@@ -65,10 +66,4 @@ USER root
 
 RUN /tmp/install-clear.sh
 
-##############################################################################
-# ENTRYPOINT
-##############################################################################
-
 ENTRYPOINT [ "/sparv/bin/entry-point.sh" ]
-
-#CMD [ "/sparv/bin/entry-point.sh" ]

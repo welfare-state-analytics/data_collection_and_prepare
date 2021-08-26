@@ -4,7 +4,7 @@
 
 cd /tmp
 
-cd $SPARV_DIR/bin
+cd $SPARV_DATADIR/bin
 
 mkdir -p ~/.subversion
 echo "[global]" > ~/.subversion/servers

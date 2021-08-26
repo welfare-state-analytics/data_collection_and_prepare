@@ -4,12 +4,12 @@ import os
 import zipfile
 
 import click
-
 from src import utility
 
 logger = logging.getLogger()
 
 # pylint: disable=no-value-for-parameter
+
 
 def extract_contents(source_filename):
     """Returns a stream of text extracted from downloaded content.json package file.
@@ -42,14 +42,13 @@ def extract_contents(source_filename):
             json_content = json.loads(zf.read(content_name).decode("utf-8"))
             json_meta = json.loads(zf.read(meta_name).decode("utf-8"))
 
-            document = ''.join([
-                block['content'] for block in json_content
-            ])
+            document = ''.join([block['content'] for block in json_content])
 
-            #parts = package_id.split('-')
-            filename = "{}.txt".format(package_id.replace('-', '_')) # , json_meta['created'])
+            # parts = package_id.split('-')
+            filename = "{}.txt".format(package_id.replace('-', '_'))  # , json_meta['created'])
             print(filename)
             yield package_id, document, filename, json_meta['created']
+
 
 @click.command()
 @click.option('--source-filename', default='content.zip', help='Archive containing content.json files.')
@@ -65,15 +64,14 @@ def extract_corpus(source_filename, target_filename):
         Result (Zip) filename
 
     """
-    texts = (
-        (filename, text) for _, text, filename, _ in extract_contents(source_filename)
-    )
+    texts = ((filename, text) for _, text, filename, _ in extract_contents(source_filename))
     utility.store_to_zipfile(target_filename, texts)
+
 
 if __name__ == '__main__':
 
-#     source_filename = "/home/roger/tmp/riksdagens_protokoll_content.zip"
-#     target_filename = "/home/roger/tmp/riksdagens_protokoll_content_corpus.zip"
-#     extract_corpus(source_filename, target_filename)
+    #     source_filename = "/home/roger/tmp/riksdagens_protokoll_content.zip"
+    #     target_filename = "/home/roger/tmp/riksdagens_protokoll_content_corpus.zip"
+    #     extract_corpus(source_filename, target_filename)
 
     extract_corpus()

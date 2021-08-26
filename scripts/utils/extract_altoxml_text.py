@@ -7,6 +7,7 @@ from .altoxml_parser import AltoXmlParser
 
 # pylint: disable=no-value-for-parameter
 
+
 def extract_documents(source_filename, pattern, line_break='\n', page_break='\n'):
     """Returns a stream of filename & text tuples
 
@@ -42,6 +43,7 @@ def extract_documents(source_filename, pattern, line_break='\n', page_break='\n'
 
             yield package_id, document
 
+
 @click.command()
 @click.option('--source-filename', default='alto-xml.zip', help='Source ALTO-XML filename.')
 @click.option('--target-filename', default='corpus.zip', help='Target text corpus.')
@@ -66,10 +68,12 @@ def extract_corpus(source_filename, target_filename, pattern, line_break='\n', p
     """
     texts = (
         ("{}.txt".format(package_id), text)
-            for package_id, text in
-                extract_documents(source_filename, pattern, line_break=line_break, page_break=page_break)
+        for package_id, text in extract_documents(
+            source_filename, pattern, line_break=line_break, page_break=page_break
+        )
     )
     utility.store_to_zipfile(target_filename, texts)
+
 
 if __name__ == "__main__":
 
@@ -79,6 +83,6 @@ if __name__ == "__main__":
     # line_break='\n'
     # page_break='\n#########\n'
 
-    #extract_corpus(source_filename, target_filename, pattern, line_break=line_break, page_break=page_break)
+    # extract_corpus(source_filename, target_filename, pattern, line_break=line_break, page_break=page_break)
 
     extract_corpus()

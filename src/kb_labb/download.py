@@ -1,13 +1,14 @@
 import fnmatch
+import logging
 import os
 import zipfile
-import logging
 
 from kblab import Archive
 
 logger = logging.getLogger("westac")
 
 # pylint: disable=logging-not-lazy, unnecessary-comprehension
+
 
 def connect():
     """Connect to KB-LAB API
@@ -20,6 +21,7 @@ def connect():
     archive = Archive('https://betalab.kb.se/', auth=(os.environ['KBLAB_USER'], os.environ['KBLAB_PASSWD']))
 
     return archive
+
 
 def find_packages(archive, query, max_count):
     """Finds packages matching query.
@@ -47,6 +49,7 @@ def find_packages(archive, query, max_count):
             continue
 
         yield package_id, package
+
 
 def download_package_items(package, includes=None, excludes=None):
     """Downloads files in package `package`.
@@ -77,6 +80,7 @@ def download_package_items(package, includes=None, excludes=None):
 
             yield filename, content
 
+
 def download_query_to_zip(query, max_count, target_filename, includes=None, excludes=None, append=False):
     """Downloads file contents matching query and stores result in a Zip archive.
 
@@ -99,7 +103,7 @@ def download_query_to_zip(query, max_count, target_filename, includes=None, excl
 
     with zipfile.ZipFile(target_filename, mode) as target_archive:
 
-        existing_files = { x for x in target_archive.namelist() }
+        existing_files = {x for x in target_archive.namelist()}
 
         for package_id, package in find_packages(archive, query, max_count):
 

@@ -5,9 +5,14 @@ import click
 
 # pylint: disable=no-value-for-parameter, chained-comparison
 
+
 @click.command()
-@click.argument('source', )
-@click.argument('target', )
+@click.argument(
+    'source',
+)
+@click.argument(
+    'target',
+)
 @click.argument('startyear', type=click.IntRange(1700, 2030))
 @click.argument('endyear', type=click.IntRange(1700, 2030))
 def copyto(source, target, startyear, endyear):
@@ -34,6 +39,7 @@ def copyto(source, target, startyear, endyear):
                     target_archive.writestr(filename, data=content, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
 
                     print("added: {}".format(filename))
+
 
 if __name__ == "__main__":
     copyto()

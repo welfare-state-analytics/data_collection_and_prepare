@@ -1,10 +1,13 @@
-#%%
-import pandas as pd
-import zipfile
-import numpy as np
 import io
 import os
+import zipfile
 from os.path import join as jj
+
+import numpy as np
+
+#%%
+import pandas as pd
+
 
 def read_document_index(zip_filename):
     df_total = None
@@ -16,16 +19,33 @@ def read_document_index(zip_filename):
                 df = pd.read_csv(io.StringIO(data), header=None, delimiter=",", quotechar='"')
                 df_total = df if df_total is None else df_total.append(df, ignore_index=True)
     df_total.columns = [
-        "hangar_id", "dok_id", "riksdag_session", "beteckning", "doktyp", "typ", "subtyp", "tempbeteckning", "organ", "mottagare", "nummer", "datum", "systemdatum", "titel", "subtitel", "status", "relaterat_id"
+        "hangar_id",
+        "dok_id",
+        "riksdag_session",
+        "beteckning",
+        "doktyp",
+        "typ",
+        "subtyp",
+        "tempbeteckning",
+        "organ",
+        "mottagare",
+        "nummer",
+        "datum",
+        "systemdatum",
+        "titel",
+        "subtitel",
+        "status",
+        "relaterat_id",
     ]
-    df_total.at[df_total.dok_id=="G209106", "nummer"] = 106
+    df_total.at[df_total.dok_id == "G209106", "nummer"] = 106
 
     df_total['year'] = df_total.riksdag_session.apply(lambda x: int(x.split('/')[0]))
     return df_total.set_index('dok_id')
 
+
 def rename_files(source_filename, target_filename, document_index):
 
-    #p = re.compile(r"^(?P<session_id>[A-Z0-9]{2})(?P<doc_type_id>[A-Z0-9]{2})(?P<sequence_id>[0-9]{1,})\.*")
+    # p = re.compile(r"^(?P<session_id>[A-Z0-9]{2})(?P<doc_type_id>[A-Z0-9]{2})(?P<sequence_id>[0-9]{1,})\.*")
 
     with zipfile.ZipFile(target_filename, mode="w", compresslevel=zipfile.ZIP_DEFLATED) as tf:
         with zipfile.ZipFile(source_filename, mode="r") as sf:
@@ -45,12 +65,16 @@ def rename_files(source_filename, target_filename, document_index):
                 dokument_id, _ = os.path.splitext(source_name)
                 metadata = document_index.loc[dokument_id.upper()].to_dict()
                 target_name = f"prot_{metadata['riksdag_session'].replace('/', '')}__{metadata['beteckning']}.txt"
-                tf.writestr(target_name, data,)
+                tf.writestr(
+                    target_name,
+                    data,
+                )
             print("Done!")
+
+
 # %%
 def prepare_riksdagens_protokoll_from_riksdagens_open_data(data_folder):
-    """creates a compiled document index (CSV) and a text corpus (ZIP) for all text files 1971-2020 (downloaded September 24th)
-    """
+    """creates a compiled document index (CSV) and a text corpus (ZIP) for all text files 1971-2020 (downloaded September 24th)"""
     downloaded_text_filename = jj(data_folder, 'prot-1971-2021.text.zip')
     downloaded_csv_filename = jj(data_folder, 'prot-1971-2021.csv.zip')
 
@@ -67,5 +91,6 @@ def prepare_riksdagens_protokoll_from_riksdagens_open_data(data_folder):
         document_index = pd.read_csv(target_document_index_filename, sep='\t', header=0).set_index('dok_id')
 
     rename_files(downloaded_text_filename, target_corpus_filename, document_index)
+
 
 prepare_riksdagens_protokoll_from_riksdagens_open_data(data_folder="~/source/welfare-state-analytics/data")

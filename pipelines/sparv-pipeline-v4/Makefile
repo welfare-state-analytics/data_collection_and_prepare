@@ -1,10 +1,19 @@
 .DEFAULT_GOAL=build
 
+include .env
+
 build:
-	docker build -t sparv_v4:latest -f Dockerfile .
-	# docker build -t rogermahler/sparv_v4:latest -f Dockerfile .
-	# docker login docker.io
-	# docker push rogermahler/sparv_v4:latest
+	docker build \
+		--tag rogermahler/sparv_v4:latest \
+		--tag rogermahler/sparv_v4:${SPARV_DOCKER_VERSION} \
+		--tag sparv_v4:latest \
+		--tag sparv_v4:${SPARV_DOCKER_VERSION} \
+		--build-arg	BUILD_SPARV_MODELS=${BUILD_SPARV_MODELS} \
+		--file Dockerfile .
+
+publish:
+	docker login docker.io
+	docker push rogermahler/sparv_v4:latest
 
 bash:
 	-docker run --entrypoint /bin/bash --rm -it -t sparv_v4:latest
@@ -17,7 +26,7 @@ bash2:
 		--volume="/etc/passwd:/etc/passwd:ro" \
 		--volume="/etc/group:/etc/group:ro" \
 		--volume="/etc/shadow:/etc/shadow:ro" \
-        --volume="/data/sparv4/models:/sparv/models:rw" \
+        --volume="/data/sparv/models:/sparv/models:rw" \
 		--rm -it sparv_v4:latest
 
 prune:
@@ -29,4 +38,4 @@ killall:
 rmi_untagged:
 	-docker rmi `docker images | grep "^<none>" | awk "{print $3}"`
 
-.PHONY: build bash bash2 prune killall rmi_untagged
+.PHONY: build bash bash2 prune killall rmi_untagged publish

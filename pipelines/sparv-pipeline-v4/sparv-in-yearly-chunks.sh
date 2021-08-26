@@ -12,17 +12,16 @@ usage()
   exit 0
 }
 
-#text_corpus_filename=~/source/welfare-state-analytics/data/riksdagens_protokoll/riksdagens_protokoll_1920-2020.zip
-#sparv4=~/source/welfare-state-analytics/westac_data/pipelines/sparv-pipeline-v4/sparv4
-
 corpus_filename=""
 start_year=0
 stop_year=0
 pattern_template=""
 force="no"
 output_folder=""
+output_prefix=""
 positionals=()
 positionals_count=0
+tiny_move_threshold=5
 
 parse_opts()
 {
@@ -38,6 +37,9 @@ parse_opts()
         ;;
       -o=*|--output-folder=*)
         output_folder="${1#*=}"
+        ;;
+      -b=*|--prefix=*)
+        output_prefix="${1#*=}"
         ;;
       *)
         positional="$key"
@@ -72,6 +74,10 @@ if [ "$output_folder" == "" ]; then
     usage
 fi
 
+if [ "$output_prefix" == "" ]; then
+    output_prefix="annotated"
+fi
+
 corpus_filename=$1
 start_year=$2
 stop_year=$3
@@ -86,6 +92,18 @@ if [ $start_year -lt 1900 ] || [ $start_year -gt 2020 ] || [ $stop_year -gt 2020
     printf '%s\n' 'Please specify year within valid year range!'
     usage
 fi
+
+add_files_to_archive()
+{
+    year=$1
+    ext=$2
+    if ls ./$year/export/$ext/*.$ext 1> /dev/null 2>&1; then
+        filename=$output_folder/${output_prefix}$year.sparv4.$ext.zip
+        rm -f $filename
+        zip -jD $filename ./$year/export/$ext/*.$ext
+        rm -rf ./$year/export/$ext/*.$ext
+    fi
+}
 
 echo "Using corpus $corpus_filename with pattern '$pattern_template' for $start_year to $stop_year and target folder $output_folder"
 
@@ -125,6 +143,12 @@ do
     mkdir -p ./small-files
 
     find ./$year/source -type f -maxdepth 1 -size -100c -exec mv {} ./small-files/ \;
+    # mkdir -p ./skipped_files
+    # wc -w ./$year/source/*.txt | awk '$1 < 6 { print $2 }' |
+    #     while read line; do
+    #         echo "Moving tiny file $line to ./skipped_files/"
+    #         mv "$line" ./skipped_files/
+    #     done
 
     cd $year
 
@@ -132,13 +156,8 @@ do
 
     cd ..
 
-    xml_filename=$output_folder/riksdagens-protokoll.$year.sparv4.xml.zip
-    rm -f $xml_filename
-    zip -jD $xml_filename ./$year/export/xml/*.xml
-
-    csv_filename=$output_folder/riksdagens-protokoll.$year.sparv4.csv.zip
-    rm -f $csv_filename
-    zip -jD $csv_filename ./$year/export/csv/*.csv
+    add_files_to_archive $year "xml"
+    add_files_to_archive $year "csv"
 
     rm -rf $year
 
