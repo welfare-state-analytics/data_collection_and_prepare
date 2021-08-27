@@ -1,0 +1,1 @@
+../../../pipelines/sparv-pipeline-v4/sparv-in-yearly-chunks.sh
